@@ -8,7 +8,7 @@ In this repository I only provide the terraforming code for the pipeline infrast
 
 #### Prerequisites
 
-Create your own packer repo (you can clone or fork [mine](https://github.com/JManzur/ami-builder-codepipeline-packer-repo)), and configure the CodeStar connection following his instructions.
+Create your own packer repo (you can clone or fork [mine](https://github.com/JManzur/ami-builder-codepipeline-packer-repo)), and configure the CodeStar connection [following this instructions](https://github.com/JManzur/ami-builder-codepipeline/blob/main/resources/CodeConnection.pdf).
 
 ## Resources deployed by this manifest:
 
