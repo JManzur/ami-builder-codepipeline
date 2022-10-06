@@ -43,8 +43,8 @@ variable "project-tags" {
   type = map(string)
   default = {
     Service   = "AMI-Builder-CodePipeline",
-    CreatedBy = "Hermes"
-    Env       = "Meetup"
+    CreatedBy = "JManzur"
+    Env       = "POC"
   }
 }
 
