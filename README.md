@@ -35,11 +35,11 @@ Located in the root directory, create a file called default.auto.tfvars with a c
 
 ```bash
 aws_profile       = "default"
+aws_region        = "us-east-1"
+name_prefix       = "ami-builder"
 code_connection   = "arn:aws:codestar-connections:REGION:ACCOUNT_ID:connection/XXXXXXXXXXXXXXXXXXXXXXXXXXX"
 repository_id     = "USER_NAME/REPO_NAME"
 repository_branch = "main"
-name_prefix       = "ami-builder"
-aws_region        = "us-east-1"
 ```
 
 Initialice the direcotry to download the necessary modules and start the backend.
