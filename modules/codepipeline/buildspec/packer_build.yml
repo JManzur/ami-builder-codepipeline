@@ -1,0 +1,18 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo "[INFO] Installing HashiCorp Packer"
+      - curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/1.8.3/packer_1.8.3_linux_amd64.zip && unzip packer.zip
+      - echo "[INFO] Installing jq"
+      - curl -s -qL -o jq https://stedolan.github.io/jq/download/linux64/jq
+      - chmod +x jq && mv jq /usr/bin/
+      - echo "[INFO] Initialize Packer in the current directory"
+      - ./packer init ${ServiceName}.pkr.hcl
+  build:
+    commands:
+      - echo "[INFO] Building HashiCorp Packer template, ${ServiceName}.pkr.hcl"
+      - ./packer build -timestamp-ui -machine-readable ${ServiceName}.pkr.hcl
+  post_build:
+    commands:
+      - echo "[INFO] HashiCorp Packer build completed on $(date)"

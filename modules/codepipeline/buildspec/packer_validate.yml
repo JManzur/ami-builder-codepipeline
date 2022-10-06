@@ -1,0 +1,15 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo "[INFO] Installing HashiCorp Packer"
+      - curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/1.8.3/packer_1.8.3_linux_amd64.zip && unzip packer.zip
+  build:
+    commands:
+      - echo "[INFO] Initialize Packer in the current directory"
+      - ./packer init ${ServiceName}.pkr.hcl
+      - echo "[INFO] Validating ${ServiceName}.pkr.hcl"
+      - ./packer validate ${ServiceName}.pkr.hcl
+  post_build:
+    commands:
+      - echo "[INFO] HashiCorp Packer validate completed on $(date)"
