@@ -67,6 +67,20 @@ data "aws_iam_policy_document" "buil_policy_source" {
   }
 
   statement {
+    sid    = "SSMPolicy"
+    effect = "Allow"
+    actions = [
+      "ssm:StartSession",
+      "ssm:SendCommand",
+      "ssm:GetConnectionStatus",
+      "ssm:DescribeInstanceInformation",
+      "ssm:TerminateSession",
+      "ssm:ResumeSession"
+    ]
+    resources = ["*"]
+  }
+
+  statement {
     sid    = "PackerIAMCreateRole"
     effect = "Allow"
     actions = [

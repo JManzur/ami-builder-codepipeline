@@ -7,17 +7,17 @@ variable "aws_profile" {
 }
 
 variable "code_connection" {
-  type = string
+  type        = string
   description = "The CodeStart Connection ARN" # Ref.: https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html
 }
 
 variable "repository_id" {
-  type = string
+  type        = string
   description = "The ID of your git repo in the USER_NAME/REPO_NAME format" # Example: JManzur/ami-builder-codepipeline-packer-repo
 }
 
 variable "repository_branch" {
-  type = string
+  type        = string
   description = "The branch where the code should be pulled from." # Example: Main
 }
 
