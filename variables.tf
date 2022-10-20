@@ -53,18 +53,27 @@ variable "name_prefix" {
   type = string
 }
 
-# IAM Roles Name:
-variable "codepipeline_role" {
-  type    = string
-  default = "Packer-codepipeline-role"
+variable "service_role_name" {
+  type = map(string)
+  default = {
+    CodePipeline = "Packer-CodePipeline-Role",
+    CodeBuild    = "Packer-CodeBuild-Role"
+  }
 }
 
-variable "codebuild_role" {
-  type    = string
-  default = "Packer-codebuild-role"
+variable "DeployVPC" {
+  type    = bool
+  default = true
 }
 
-variable "terrraform_apply_role" {
-  type    = string
-  default = "Packer-apply-role"
+variable "preexisting_vpc_id" {
+  type        = string
+  description = "If var.DeployVPC is set to false a preexisting VPC ID must be provided"
+  default     = ""
+}
+
+variable "preexisting_private_subnet" {
+  type        = string
+  description = "If var.DeployVPC is set to false a preexisting Private Subnet ID must be provided"
+  default     = ""
 }

@@ -2,7 +2,9 @@
 category: Possible values are Approval, Build, Deploy, Invoke, Source and Test.
 provider: Ref.: https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference.html
 */
-resource "aws_codepipeline" "codepipeline" {
+
+## Windows AMI Builder Pipeline
+resource "aws_codepipeline" "windows" {
   name     = "Windows-AMI-Builder"
   role_arn = aws_iam_role.codepipeline_role.arn
 
@@ -36,8 +38,6 @@ resource "aws_codepipeline" "codepipeline" {
       }
     }
   }
-
-
 
   stage {
     name = "Validate"
@@ -104,10 +104,8 @@ resource "aws_codepipeline" "codepipeline" {
   }
 }
 
-/*
-Linux AMI
-*/
-resource "aws_codepipeline" "codepipeline_linux" {
+## Linux AMI Builder Pipeline
+resource "aws_codepipeline" "linux" {
   name     = "Linux-AMI-Builder"
   role_arn = aws_iam_role.codepipeline_role.arn
 
@@ -141,8 +139,6 @@ resource "aws_codepipeline" "codepipeline_linux" {
       }
     }
   }
-
-
 
   stage {
     name = "Validate"
@@ -198,6 +194,16 @@ resource "aws_codepipeline" "codepipeline_linux" {
       configuration = {
         ProjectName = aws_codebuild_project.build.name
         EnvironmentVariables = jsonencode([
+          {
+            name  = "VPCID"
+            value = "${var.vpc_id}"
+            type  = "PLAINTEXT"
+          },
+          {
+            name  = "SubnetID"
+            value = "${var.private_subnet}"
+            type  = "PLAINTEXT"
+          },
           {
             name  = "ServiceName"
             value = "linux"

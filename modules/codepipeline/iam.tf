@@ -1,9 +1,9 @@
 /*
-Role: packer CodeBuild
+Role: Packer CodeBuild
 Description: Used by the CodeBuild Project
 */
 
-data "aws_iam_policy_document" "buil_policy_source" {
+data "aws_iam_policy_document" "build_policy_source" {
   statement {
     sid    = "CloudwatchPolicy"
     effect = "Allow"
@@ -112,47 +112,10 @@ data "aws_iam_policy_document" "buil_policy_source" {
   }
 
   statement {
-    sid    = "PackerEC2Policy"
+    sid    = "PackerEC2FullAccess"
     effect = "Allow"
     actions = [
-      "ec2:AttachVolume",
-      "ec2:AuthorizeSecurityGroupIngress",
-      "ec2:CopyImage",
-      "ec2:CreateImage",
-      "ec2:CreateKeypair",
-      "ec2:CreateSecurityGroup",
-      "ec2:CreateSnapshot",
-      "ec2:CreateTags",
-      "ec2:CreateVolume",
-      "ec2:DeleteKeyPair",
-      "ec2:DeleteSecurityGroup",
-      "ec2:DeleteSnapshot",
-      "ec2:DeleteVolume",
-      "ec2:DeregisterImage",
-      "ec2:DescribeImageAttribute",
-      "ec2:DescribeImages",
-      "ec2:DescribeInstances",
-      "ec2:DescribeInstanceStatus",
-      "ec2:DescribeRegions",
-      "ec2:DescribeSecurityGroups",
-      "ec2:DescribeSnapshots",
-      "ec2:DescribeSubnets",
-      "ec2:DescribeTags",
-      "ec2:DescribeVolumes",
-      "ec2:DetachVolume",
-      "ec2:GetPasswordData",
-      "ec2:ModifyImageAttribute",
-      "ec2:ModifyInstanceAttribute",
-      "ec2:ModifySnapshotAttribute",
-      "ec2:RegisterImage",
-      "ec2:RunInstances",
-      "ec2:StopInstances",
-      "ec2:TerminateInstances",
-      "ec2:CreateLaunchTemplate",
-      "ec2:DeleteLaunchTemplate",
-      "ec2:CreateFleet",
-      "ec2:DescribeSpotPriceHistory",
-      "ec2:DescribeVpcs"
+      "ec2:*"
     ]
     resources = ["*"]
   }
@@ -174,14 +137,14 @@ resource "aws_iam_policy" "codebuild_policy" {
   name        = lower("${var.name_prefix}-codebuild-policy")
   path        = "/"
   description = "CodePipeline Policy"
-  policy      = data.aws_iam_policy_document.buil_policy_source.json
+  policy      = data.aws_iam_policy_document.build_policy_source.json
   tags        = { Name = "${var.name_prefix}-codebuild-policy" }
 }
 
 resource "aws_iam_role" "codebuild_role" {
-  name               = var.codebuild_role
+  name               = var.service_role_name["CodeBuild"]
   assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role_policy.json
-  tags               = { Name = "${var.codebuild_role}" }
+  tags               = { Name = "${var.service_role_name["CodeBuild"]}" }
 }
 
 resource "aws_iam_role_policy_attachment" "build_attach" {
@@ -190,7 +153,7 @@ resource "aws_iam_role_policy_attachment" "build_attach" {
 }
 
 /*
-Role: packer CodePipeline
+Role: Packer CodePipeline
 Description: Used by the CodePipeline Project
 */
 
@@ -276,6 +239,15 @@ data "aws_iam_policy_document" "codepipeline_policy_source" {
     ]
     resources = ["${aws_kms_key.artifact.arn}"]
   }
+
+  statement {
+    sid    = "PackerEC2FullAccess"
+    effect = "Allow"
+    actions = [
+      "ec2:*"
+    ]
+    resources = ["*"]
+  }
 }
 
 data "aws_iam_policy_document" "codepipeline_assume_role_policy" {
@@ -302,9 +274,9 @@ resource "aws_iam_policy" "codepipeline_policy" {
 }
 
 resource "aws_iam_role" "codepipeline_role" {
-  name               = var.codepipeline_role
+  name               = var.service_role_name["CodePipeline"]
   assume_role_policy = data.aws_iam_policy_document.codepipeline_assume_role_policy.json
-  tags               = { Name = "${var.codepipeline_role}" }
+  tags               = { Name = "${var.service_role_name["CodePipeline"]}" }
 }
 
 resource "aws_iam_role_policy_attachment" "codepipeline_attach" {
