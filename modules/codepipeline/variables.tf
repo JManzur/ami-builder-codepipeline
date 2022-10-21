@@ -6,5 +6,3 @@ variable "repository_id" {}
 variable "repository_branch" {}
 variable "compute_type" {}
 variable "aws_profile" {}
-variable "vpc_id" {}
-variable "private_subnet" {}

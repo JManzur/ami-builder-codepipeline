@@ -60,20 +60,3 @@ variable "service_role_name" {
     CodeBuild    = "Packer-CodeBuild-Role"
   }
 }
-
-variable "DeployVPC" {
-  type    = bool
-  default = true
-}
-
-variable "preexisting_vpc_id" {
-  type        = string
-  description = "If var.DeployVPC is set to false a preexisting VPC ID must be provided"
-  default     = ""
-}
-
-variable "preexisting_private_subnet" {
-  type        = string
-  description = "If var.DeployVPC is set to false a preexisting Private Subnet ID must be provided"
-  default     = ""
-}

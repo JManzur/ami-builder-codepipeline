@@ -195,16 +195,6 @@ resource "aws_codepipeline" "linux" {
         ProjectName = aws_codebuild_project.build.name
         EnvironmentVariables = jsonencode([
           {
-            name  = "VPCID"
-            value = "${var.vpc_id}"
-            type  = "PLAINTEXT"
-          },
-          {
-            name  = "SubnetID"
-            value = "${var.private_subnet}"
-            type  = "PLAINTEXT"
-          },
-          {
             name  = "ServiceName"
             value = "linux"
             type  = "PLAINTEXT"
